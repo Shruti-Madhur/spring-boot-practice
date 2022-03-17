@@ -1,1 +1,1 @@
-# spring-boot-practice
+# spring-mvc-practice

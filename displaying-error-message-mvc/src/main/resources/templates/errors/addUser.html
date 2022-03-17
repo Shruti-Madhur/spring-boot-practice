@@ -1,0 +1,50 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Displaying error message!</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="#" th:action="@{/add}" th:object="${user}" method="post" class="form">
+        <p th:if="${#fields.hasErrors('age')}" th:class="${#fields.hasErrors('age')}? error">
+            Invalid Age</p>
+        <div>
+            <label for="email">Email</label> <input type="text" th:field="*{email}" />
+            <p th:if="${#fields.hasErrors('email')}" th:errorclass="error" th:errors="*{email}" />
+        </div>
+        <div>
+            <label for="fullName">Name</label> <input type="text" th:field="*{fullName}" id="fullName"
+                placeholder="Full Name">
+            <ul>
+                <li th:each="err : ${#fields.errors('fullName')}" th:text="${err}" class="error" />
+            </ul>
+        </div>
+
+        <h3>All errors in place:</h3>
+        <div th:if="${#fields.hasAnyErrors()}">
+            <ul>
+                <li th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+            </ul>
+        </div>
+        <input type="submit" value="Add Me">
+    </form>
+    <h4>Errors on a single field:</h4>
+    <div th:if="${#fields.hasErrors('${user.email}')}" th:errors="*{user.email}"></div>
+    <ul>
+        <li th:each="err : ${#fields.errors('user.*')}" th:text="${err}" />
+    </ul>
+    <h4>All errors:</h4>
+    <ul>
+        <li th:each="err : ${#fields.errors('user.*')}" th:text="${err}" />
+    </ul>
+</body>
+
+</html>
